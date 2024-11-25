@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reactive.Linq;
 using DynamicData;
+using ReactiveUI;
 using Task5.Common;
 using Task5.Models;
 

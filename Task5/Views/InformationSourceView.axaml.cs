@@ -1,8 +1,10 @@
-﻿using System.Reactive.Disposables;
+﻿using System;
+using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Material.Icons;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using Task5.ViewModels;
@@ -21,9 +23,18 @@ public partial class InformationSourceView : ReactiveUserControl<InformationSour
         {
             this
                 .BindCommand(ViewModel,
-                    viewModel => viewModel.GenerateMessagesCancelable,
+                    viewModel => viewModel.BeginOrCancelMessageGeneration,
                     view => view.BeginButton)
                 .DisposeWith(disposables);
+
+            this
+                .WhenAnyValue(x => x.ViewModel!.IsBusy)
+                .Subscribe(isBusy =>
+                {
+                    BeginButtonIcon.Content = isBusy 
+                        ? MaterialIconKind.Stop 
+                        : MaterialIconKind.Play;
+                });
         });
     }
 }

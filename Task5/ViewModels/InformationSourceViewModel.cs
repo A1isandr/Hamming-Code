@@ -9,12 +9,14 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Task5.Components;
 using Task5.Models;
+using Task5.Services;
 
 namespace Task5.ViewModels;
 
 public class InformationSourceViewModel : ViewModelBase
 {
     private readonly InformationSourceComponent _informationSourceComponent;
+    private readonly SelectedMessageService _selectedMessageService;
 
     private readonly ReadOnlyObservableCollection<Message> _messages;
     public ReadOnlyObservableCollection<Message> Messages => _messages;
@@ -25,6 +27,9 @@ public class InformationSourceViewModel : ViewModelBase
     [Reactive]
     public int NumberOfMessages { get; set; } = 6;
     
+    [Reactive]
+    public int? SelectedMessage { get; set; }
+    
     [ObservableAsProperty]
     public bool IsBusy { get; set; }
     
@@ -34,10 +39,15 @@ public class InformationSourceViewModel : ViewModelBase
     
     public ReactiveCommand<Unit, Unit> CancelMessageGeneration { get; }
     
+    public ReactiveCommand<Unit, Unit> BeginOrCancelMessageGeneration { get; }
     
-    public InformationSourceViewModel(InformationSourceComponent informationSourceComponent)
+    
+    public InformationSourceViewModel(
+        InformationSourceComponent informationSourceComponent,
+        SelectedMessageService selectedMessageService)
     {
         _informationSourceComponent = informationSourceComponent;
+        _selectedMessageService = selectedMessageService;
         
         var canGenerate = this
             .WhenAnyValue(
@@ -57,6 +67,19 @@ public class InformationSourceViewModel : ViewModelBase
 
         CancelMessageGeneration = ReactiveCommand
             .Create(() => { }, GenerateMessages.IsExecuting);
+        
+        BeginOrCancelMessageGeneration = ReactiveCommand
+            .Create<Unit>(_ =>
+            {
+                if (IsBusy)
+                {
+                    CancelMessageGeneration.Execute().Subscribe();
+                }
+                else
+                {
+                    GenerateMessagesCancelable.Execute().Subscribe();
+                }
+            });
 
         GenerateMessages
             .IsExecuting
@@ -64,8 +87,19 @@ public class InformationSourceViewModel : ViewModelBase
         
         _informationSourceComponent
             .Connect()
+            .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out _messages)
             .Subscribe();
+
+        this
+            .WhenAnyValue(x => x._selectedMessageService.SelectedMessage)
+            .DistinctUntilChanged()
+            .BindTo(this, x => x.SelectedMessage);
+        
+        this
+            .WhenAnyValue(x => x.SelectedMessage)
+            .DistinctUntilChanged()
+            .Subscribe(x => _selectedMessageService.SelectedMessage = x);
     }
 
 

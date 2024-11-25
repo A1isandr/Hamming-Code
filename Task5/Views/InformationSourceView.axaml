@@ -17,6 +17,27 @@
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="UseFloatingWatermark" Value="True"/>
         </Style>
+        
+        <Style Selector="ListBoxItem">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <controls:GlassCard
+                        Padding="10"
+                        Margin="5">
+                    
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}">
+                        
+                        </ContentPresenter>
+                    </controls:GlassCard>
+                </ControlTemplate>
+            </Setter>
+            
+            <Style Selector="^:selected /template/ controls|GlassCard">
+                <Setter Property="IsOpaque" Value="True"/>
+            </Style>
+        </Style>
     </UserControl.Styles>
     
     <Panel>
@@ -77,58 +98,53 @@
             
             <ScrollViewer Classes="ScrollBarsOverContent"
                 Grid.Row="1"
-                HorizontalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto"
                 HorizontalContentAlignment="Center">
                 
-                <ItemsControl
+                <ListBox
                     ItemsSource="{Binding Messages}"
-                    theme:ItemsControlExtensions.AnimatedScroll="True">
+                    SelectedIndex="{Binding SelectedMessage, Mode=TwoWay}">
                     
-                    <ItemsControl.ItemsPanel>
+                    <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
+                                Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:Message}">
                             <StackPanel
                                 Orientation="Vertical"
-                                Spacing="10"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type models:Message}">
-                            <controls:GlassCard
-                                Padding="10"
-                                Margin="5">
+                                Spacing="10">
                                 
-                                <StackPanel
-                                    Orientation="Vertical"
-                                    Spacing="10">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    TextTrimming="CharacterEllipsis"
+                                    HorizontalAlignment="Center">
                                     
-                                    <TextBlock
-                                        FontWeight="Bold"
-                                        HorizontalAlignment="Center">
+                                    <Run Text="{x:Static languages:Resources.MessageLabelText}"/>
+                                    <Run Text="{Binding Id}"/>
+                                </TextBlock>
+                                
+                                <controls:GlassCard Classes="InfoCard">
+                                    <ItemsControl
+                                        ItemsSource="{Binding Word}"
+                                        ItemTemplate="{StaticResource HammingCodeDataTemplate}">
                                         
-                                        <Run Text="{x:Static languages:Resources.MessageLabelText}"/>
-                                        <Run Text="{Binding Id}"/>
-                                    </TextBlock>
-                                    
-                                    <controls:GlassCard Classes="InfoCard">
-                                        <ItemsControl
-                                            ItemsSource="{Binding Word}"
-                                            ItemTemplate="{StaticResource HammingCodeDataTemplate}">
-                                            
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel
-                                                        Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
-                                    </controls:GlassCard>
-                                </StackPanel>
-                            </controls:GlassCard>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel
+                                                    Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </controls:GlassCard>
+                            </StackPanel>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </Grid>
     </Panel>

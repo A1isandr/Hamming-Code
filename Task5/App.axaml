@@ -7,21 +7,16 @@
              RequestedThemeVariant="Default">
     
     <Application.Resources>
-        <FontFamily x:Key="SourceCodePro">
-            avares://Task5/Assets/Fonts#Source Code Pro
-        </FontFamily>
-        
-        <DataTemplate DataType="{x:Type system:Byte}" x:Key="HammingCodeDataTemplate">
-            <TextBlock
-                Text="{Binding .}"
-                FontFamily="{StaticResource SourceCodePro}"/>
-        </DataTemplate>
-        
-        <DataTemplate DataType="{x:Type system:Int32}" x:Key="InfoDataTemplate">
-            <TextBlock
-                Text="{Binding .}"
-                FontFamily="{StaticResource SourceCodePro}"/>
-        </DataTemplate>
+        <ResourceDictionary>
+            <FontFamily x:Key="SourceCodePro">
+                avares://Task5/Assets/Fonts#Source Code Pro
+            </FontFamily>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/DataTemplates/ItemsControlDataTemplates.axaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
     
     <Application.Styles>
