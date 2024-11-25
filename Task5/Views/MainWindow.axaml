@@ -1,0 +1,20 @@
+<controls:SukiWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Task5.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Task5.Views"
+        xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Task5.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Task5"
+        BackgroundAnimationEnabled="False"
+        BackgroundStyle="Flat"
+        WindowStartupLocation="CenterScreen"
+        Width="1200"
+        Height="700">
+        
+        <views:MainView
+                Margin="10"/>
+</controls:SukiWindow>

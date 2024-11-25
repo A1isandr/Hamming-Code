@@ -1,0 +1,135 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:materialIconKind="clr-namespace:Material.Icons;assembly=Material.Icons"
+             xmlns:languages="clr-namespace:Task5.Languages"
+             xmlns:models="clr-namespace:Task5.Models"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+             x:Class="Task5.Views.InformationSourceView">
+    
+    <UserControl.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="UseFloatingWatermark" Value="True"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Panel>
+        <Grid
+            RowDefinitions="Auto, *">
+            
+            <controls:GlassCard
+                Grid.Row="0"
+                CornerRadius="0"
+                BorderThickness="0, 0, 0, 2"
+                Padding="5, 0, 5, 0">
+                
+                <Grid
+                    ColumnDefinitions="Auto, *">
+                    
+                    <StackPanel
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                        
+                        <TextBox x:Name="NumberOfDigitsTextBox"
+                                 Text="{Binding NumberOfDigits, Mode=TwoWay}"
+                                 Watermark="{x:Static languages:Resources.NumberOfDigitsTextBoxWatermark}"/>
+                
+                        <TextBox x:Name="NumberOfTestsTextBox"
+                                 Text="{Binding NumberOfMessages, Mode=TwoWay}"
+                                 Watermark="{x:Static languages:Resources.NumberOfMessagesTextBoxWatermark}"/>
+                    </StackPanel>
+                
+                    <Button x:Name="BeginButton" Classes="Flat Rounded BeginButton"
+                            Classes.Accent="{Binding IsBusy}"
+                            Grid.Column="1"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Right"
+                            IsDefault="True"
+                            Padding="0">
+                            
+                        <TransitioningContentControl x:Name="BeginButtonIcon"
+                                                     Content="{x:Static materialIconKind:MaterialIconKind.Play}">
+                        
+                            <TransitioningContentControl.PageTransition>
+                                <CrossFade
+                                    Duration="0:0:0.3"/>
+                            </TransitioningContentControl.PageTransition>
+                        
+                            <TransitioningContentControl.ContentTemplate>
+                                <DataTemplate DataType="{x:Type materialIconKind:MaterialIconKind}">
+                                    <materialIcons:MaterialIcon
+                                        Width="30"
+                                        Height="30"
+                                        Kind="{Binding .}"/>
+                                </DataTemplate>
+                            </TransitioningContentControl.ContentTemplate>
+                        </TransitioningContentControl>
+                    </Button>
+                </Grid>
+            </controls:GlassCard>
+            
+            <ScrollViewer Classes="ScrollBarsOverContent"
+                Grid.Row="1"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Center">
+                
+                <ItemsControl
+                    ItemsSource="{Binding Messages}"
+                    theme:ItemsControlExtensions.AnimatedScroll="True">
+                    
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel
+                                Orientation="Vertical"
+                                Spacing="10"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:Message}">
+                            <controls:GlassCard
+                                Padding="10"
+                                Margin="5">
+                                
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    Spacing="10">
+                                    
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        HorizontalAlignment="Center">
+                                        
+                                        <Run Text="{x:Static languages:Resources.MessageLabelText}"/>
+                                        <Run Text="{Binding Id}"/>
+                                    </TextBlock>
+                                    
+                                    <controls:GlassCard Classes="InfoCard">
+                                        <ItemsControl
+                                            ItemsSource="{Binding Word}"
+                                            ItemTemplate="{StaticResource HammingCodeDataTemplate}">
+                                            
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel
+                                                        Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </controls:GlassCard>
+                                </StackPanel>
+                            </controls:GlassCard>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Panel>
+</UserControl>

@@ -1,0 +1,145 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:Task5.Models"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:languages="clr-namespace:Task5.Languages"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Task5.Views.SenderView">
+    
+    <Panel>
+        <ScrollViewer Classes="ScrollBarsOverContent"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            
+            <ItemsControl
+                ItemsSource="{Binding Stats}"
+                theme:ItemsControlExtensions.AnimatedScroll="True">
+                
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel
+                            Orientation="Vertical"
+                            Spacing="10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:SenderStats}">
+                        <controls:GlassCard
+                            Padding="10"
+                            Margin="5">
+                            
+                            <StackPanel
+                                Orientation="Vertical"
+                                Spacing="10">
+                                
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    HorizontalAlignment="Center">
+                                    
+                                    <Run Text="{x:Static languages:Resources.MessageLabelText}"/>
+                                    <Run Text="{Binding Id}"/>
+                                </TextBlock>
+                                
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    Spacing="5">
+                                    
+                                    <TextBlock
+                                        Text="{x:Static languages:Resources.HammingCodeLabelText}"/>
+                                
+                                    <controls:GlassCard Classes="InfoCard">
+                                        <ItemsControl
+                                            ItemsSource="{Binding HammingCode}"
+                                            ItemTemplate="{StaticResource HammingCodeDataTemplate}">
+                                    
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel
+                                                        Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </controls:GlassCard>
+                                </StackPanel>
+                                
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    Spacing="5"
+                                    IsVisible="{Binding HasErrors}">
+                                    
+                                    <TextBlock
+                                        Text="{x:Static languages:Resources.HammingCodeWithErrorsLabelText}"/>
+                                
+                                    <controls:GlassCard Classes="InfoCard">
+                                        <ItemsControl
+                                            ItemsSource="{Binding HammingCodeWithErrors}"
+                                            ItemTemplate="{StaticResource HammingCodeDataTemplate}">
+                                    
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel
+                                                        Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </controls:GlassCard>
+                                </StackPanel>
+                                
+                                <Grid
+                                    ColumnDefinitions="*, *">
+                                    
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        Orientation="Vertical"
+                                        Spacing="5"
+                                        Margin="0, 0, 10, 0">
+                                        
+                                        <TextBlock 
+                                            Text="{x:Static languages:Resources.NumberOfParityBitsLabelText}"
+                                            TextDecorations="Underline"/>
+                                        
+                                        <controls:GlassCard Classes="InfoCard">
+                                            <TextBlock Classes="InfoBox"
+                                                       Text="{Binding NumberOfParityBits}"/>
+                                        </controls:GlassCard>
+                                    </StackPanel>
+                                    
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Spacing="5"
+                                        IsVisible="{Binding HasErrors}">
+                                        
+                                        <TextBlock
+                                            Text="{x:Static languages:Resources.ErrorPositionsLabelText}"
+                                            Foreground="#f54242"/>
+                                        
+                                        <controls:GlassCard Classes="InfoCard">
+                                            <ItemsControl
+                                                ItemsSource="{Binding ErrorPositions}"
+                                                ItemTemplate="{StaticResource InfoDataTemplate}">
+                                                
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel
+                                                            Orientation="Horizontal"
+                                                            Spacing="10"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </controls:GlassCard>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </controls:GlassCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

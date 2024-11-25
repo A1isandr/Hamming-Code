@@ -1,0 +1,169 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Task5.ViewModels"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:views="clr-namespace:Task5.Views"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:languages="clr-namespace:Task5.Languages;assembly=Task5"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Task5.Views.MainView"
+             x:DataType="vm:MainViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="controls|GlassCard">
+            <Setter Property="IsAnimated" Value="False"/>
+            <Setter Property="Padding" Value="15"/>
+        </Style>
+        
+        <Style Selector="Button.BeginButton">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition
+                        Property="Background"
+                        Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="controls|GlassCard.Component">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="IsOpaque" Value="True"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Panel>
+        <Grid
+            RowDefinitions="Auto, *">
+            
+            <!-- <Grid -->
+            <!--     Grid.Row="0" -->
+            <!--     ColumnDefinitions="*, *, Auto" -->
+            <!--     Margin="0, 0, 0, 10"> -->
+            <!--      -->
+            <!--     <controls:GlassCard -->
+            <!--         Grid.Column="0" -->
+            <!--         Margin="0, 0, 10, 0"> -->
+            <!--          -->
+            <!--         <TextBox -->
+            <!--             Text="{Binding NumberOfDigits, Mode=TwoWay}" -->
+            <!--             Watermark="{x:Static languages:Resources.NumberOfDigitsTextBoxWatermark}" -->
+            <!--             UseFloatingWatermark="True" -->
+            <!--             IsReadOnly="{Binding IsBusy}"/> -->
+            <!--     </controls:GlassCard> -->
+            <!--      -->
+            <!--     <controls:GlassCard -->
+            <!--         Grid.Column="1" -->
+            <!--         Margin="0, 0, 10, 0"> -->
+            <!--          -->
+            <!--         <TextBox -->
+            <!--             Text="{Binding NumberOfTests, Mode=TwoWay}" -->
+            <!--             Watermark="{x:Static languages:Resources.NumberOfTestsTextBoxWatermark}" -->
+            <!--             UseFloatingWatermark="True" -->
+            <!--             IsReadOnly="{Binding IsBusy}"/> -->
+            <!--     </controls:GlassCard> -->
+            <!--      -->
+            <!--     <controls:GlassCard -->
+            <!--         Grid.Column="2"> -->
+            <!--          -->
+            <!--         <Panel> -->
+            <!--             <Button x:Name="BeginButton" Classes="Flat Rounded BeginButton"  -->
+            <!--                     Classes.Accent="{Binding IsBusy}" -->
+            <!--                     Width="45" -->
+            <!--                     Height="45" -->
+            <!--                     IsDefault="True" -->
+            <!--                     Padding="0"> -->
+            <!--                  -->
+            <!--                 <TransitioningContentControl x:Name="BeginButtonIcon" -->
+            <!--                                              Content="Play"> -->
+            <!--                      -->
+            <!--                     <TransitioningContentControl.PageTransition> -->
+            <!--                         <CrossFade -->
+            <!--                             Duration="0:0:0.3"/> -->
+            <!--                     </TransitioningContentControl.PageTransition> -->
+            <!--                      -->
+            <!--                     <TransitioningContentControl.ContentTemplate> -->
+            <!--                         <DataTemplate DataType="{x:Type materialIconKind:MaterialIconKind}"> -->
+            <!--                             <materialIcons:MaterialIcon -->
+            <!--                                 Width="30" -->
+            <!--                                 Height="30" -->
+            <!--                                 Kind="{Binding .}"/> -->
+            <!--                         </DataTemplate> -->
+            <!--                     </TransitioningContentControl.ContentTemplate> -->
+            <!--                 </TransitioningContentControl> -->
+            <!--             </Button> -->
+            <!--              -->
+            <!--             <controls:Loading -->
+            <!--                 Opacity="{Binding IsBusy}"/> -->
+            <!--         </Panel> -->
+            <!--     </controls:GlassCard> -->
+            <!-- </Grid> -->
+            
+            <controls:GlassCard
+                Grid.Row="1">
+                
+                <Grid
+                    ColumnDefinitions="*, *, *">
+                    
+                    <DockPanel
+                        Grid.Column="0"
+                        Margin="0, 0, 10, 0">
+                        
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Text="{x:Static languages:Resources.InformationSourceComponentLabelText}"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            Margin="0, 0, 0, 10"/>
+                        
+                        <controls:GlassCard Classes="Primary Component"
+                                            DockPanel.Dock="Top">
+                
+                            <views:InformationSourceView/>
+                        </controls:GlassCard>
+                    </DockPanel>
+                
+                    <DockPanel
+                        Grid.Column="1"
+                        Margin="0, 0, 10, 0">
+                        
+                        <TextBlock
+                           DockPanel.Dock="Top"
+                           Text="{x:Static languages:Resources.SenderComponentLabelText}"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0, 0, 0, 10"/>
+                        
+                        <controls:GlassCard Classes="Accent Component"
+                                            DockPanel.Dock="Top">
+                
+                            <views:SenderView/>
+                        </controls:GlassCard>
+                    </DockPanel>
+                    
+                    <DockPanel
+                        Grid.Column="2">
+                        
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Text="{x:Static languages:Resources.ReceiverComponentLabelText}"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            Margin="0, 0, 0, 10"/>
+                        
+                        <controls:GlassCard Classes="Primary Component"
+                                            DockPanel.Dock="Top">
+                
+                            <views:ReceiverView/>
+                        </controls:GlassCard>
+                    </DockPanel>
+                </Grid>
+            </controls:GlassCard>
+        </Grid>
+    </Panel>
+</UserControl>

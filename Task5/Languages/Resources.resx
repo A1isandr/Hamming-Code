@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="InformationSourceComponentLabelText" xml:space="preserve">
+        <value>Источник Информации</value>
+    </data>
+    <data name="SenderComponentLabelText" xml:space="preserve">
+        <value>Передатчик</value>
+    </data>
+    <data name="ReceiverComponentLabelText" xml:space="preserve">
+        <value>Приемник</value>
+    </data>
+    <data name="NumberOfMessagesTextBoxWatermark" xml:space="preserve">
+        <value>Сообщений</value>
+    </data>
+    <data name="NumberOfDigitsTextBoxWatermark" xml:space="preserve">
+        <value>Разрядов</value>
+    </data>
+    <data name="MessageLabelText" xml:space="preserve">
+        <value>Сообщение</value>
+    </data>
+    <data name="NumberOfParityBitsLabelText" xml:space="preserve">
+        <value>Проверочных битов</value>
+    </data>
+    <data name="ErrorPositionsLabelText" xml:space="preserve">
+        <value>Позиции ошибок</value>
+    </data>
+    <data name="HammingCodeLabelText" xml:space="preserve">
+        <value>Код Хэмминга</value>
+    </data>
+    <data name="HammingCodeWithErrorsLabelText" xml:space="preserve">
+        <value>Код Хэмминга с ошибками</value>
+    </data>
+    <data name="CorrectedHammingCodeLabelText" xml:space="preserve">
+        <value>Исправленный код Хэмминга</value>
+    </data>
+    <data name="ErrorSyndromeLabelText" xml:space="preserve">
+        <value>Синдром ошибки</value>
+    </data>
+    <data name="NumberOfErrorsLabelText" xml:space="preserve">
+        <value>Количество ошибок</value>
+    </data>
+</root>

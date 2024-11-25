@@ -1,0 +1,37 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sukiUi="https://github.com/kikipoulet/SukiUI"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             x:Class="Task5.App"
+             RequestedThemeVariant="Default">
+    
+    <Application.Resources>
+        <FontFamily x:Key="SourceCodePro">
+            avares://Task5/Assets/Fonts#Source Code Pro
+        </FontFamily>
+        
+        <DataTemplate DataType="{x:Type system:Byte}" x:Key="HammingCodeDataTemplate">
+            <TextBlock
+                Text="{Binding .}"
+                FontFamily="{StaticResource SourceCodePro}"/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type system:Int32}" x:Key="InfoDataTemplate">
+            <TextBlock
+                Text="{Binding .}"
+                FontFamily="{StaticResource SourceCodePro}"/>
+        </DataTemplate>
+    </Application.Resources>
+    
+    <Application.Styles>
+        <sukiUi:SukiTheme ThemeColor="Green"/>
+        
+        <materialIcons:MaterialIconStyles/>
+        
+        <StyleInclude Source="/Themes/Base/ScrollViewerStyles.axaml"/>
+        <StyleInclude Source="/Themes/Base/TextBlockStyles.axaml"/>
+        
+        <StyleInclude Source="/Themes/Suki/GlassCardStyles.axaml"/>
+    </Application.Styles>
+</Application>
