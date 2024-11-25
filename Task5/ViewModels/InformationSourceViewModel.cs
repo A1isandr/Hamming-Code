@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Task5.Components;
 using Task5.Models;
 
@@ -17,10 +18,15 @@ public class InformationSourceViewModel : ViewModelBase
 
     private readonly ReadOnlyObservableCollection<Message> _messages;
     public ReadOnlyObservableCollection<Message> Messages => _messages;
-
+    
+    [Reactive]
     public int NumberOfDigits { get; set; } = 15;
-
+    
+    [Reactive]
     public int NumberOfMessages { get; set; } = 6;
+    
+    [ObservableAsProperty]
+    public bool IsBusy { get; set; }
     
     public ReactiveCommand<Unit, Unit> GenerateMessages { get; }
     
@@ -51,6 +57,10 @@ public class InformationSourceViewModel : ViewModelBase
 
         CancelMessageGeneration = ReactiveCommand
             .Create(() => { }, GenerateMessages.IsExecuting);
+
+        GenerateMessages
+            .IsExecuting
+            .ToPropertyEx(this, x => x.IsBusy);
         
         _informationSourceComponent
             .Connect()

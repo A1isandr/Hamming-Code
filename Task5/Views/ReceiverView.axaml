@@ -103,7 +103,7 @@
                                         
                                         <controls:GlassCard Classes="InfoCard">
                                             <TextBlock Classes="InfoBox"
-                                                       Text="{Binding Syndrome}"/>
+                                                       Text="{Binding ErrorSyndrome}"/>
                                         </controls:GlassCard>
                                     </StackPanel>
                                     

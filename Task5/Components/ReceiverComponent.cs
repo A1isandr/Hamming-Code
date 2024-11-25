@@ -27,60 +27,84 @@ public class ReceiverComponent
     
     private static ReceiverStats DecodeHammingCode(Message message)
     {
-        var syndrome = CalculateSyndrome(message.Word);
-        var isOverallParityMatches = CalculateOverallParity(message.Word);
-        var numberOfErrors = CalculateNumberOfErrors(syndrome, isOverallParityMatches);
+        var (numberOfErrors, errorSyndrome) = CalculateNumberOfErrors(message.Word);
         byte[]? correctedHammingCode = null;
         
         if (numberOfErrors == 1)
         {
-            correctedHammingCode = CorrectError(message.Word, syndrome);
+            correctedHammingCode = CorrectError(message.Word, errorSyndrome);
         }
         
         return new ReceiverStats(
             Id: message.Id,
             HammingCode: message.Word,
             NumberOfErrors: numberOfErrors,
-            Syndrome: syndrome == 0 ? null : syndrome,
+            ErrorSyndrome: errorSyndrome,
             CorrectedHammingCode: correctedHammingCode);
     }
     
-    private static int CalculateNumberOfParityBits(int numberOfDataDigits)
+    private static int CalculateNumberOfParityBits(int numberOfBits)
     {
-        var p = 0;
+        var numberOfParityBits = 0;
         
-        while (1 << p < numberOfDataDigits + p + 1)
+        while (1 << numberOfParityBits < numberOfBits)
         {
-            p++;
+            numberOfParityBits++;
         }
         
-        return p;
+        return numberOfParityBits;
     }
     
-    private static int CalculateSyndrome(byte[] hammingCode)
+    private static (int, int) CalculateNumberOfErrors(byte[] hammingCode)
     {
-        var numberOfParityBits = CalculateNumberOfParityBits(hammingCode.Length - 1);
-        var syndrome = 0;
+        var errorSyndrome = CalculateErrorSyndrome(hammingCode);
+        var isOverallParityMatches = CalculateOverallParity(hammingCode);
+        var numberOfErrors = 1;
+        
+        // 0 - нет ошибок, 1 - однократная, 2 - двукратная
+        if (errorSyndrome == 0 && isOverallParityMatches)
+        {
+            numberOfErrors = 0;
+        }
 
+        if (errorSyndrome != 0 && isOverallParityMatches)
+        {
+            numberOfErrors = 2;
+        }
+
+        if (errorSyndrome == 0 && !isOverallParityMatches)
+        {
+            errorSyndrome = hammingCode.Length;
+        }
+
+        return (numberOfErrors, errorSyndrome);
+    }
+    
+    public static int CalculateErrorSyndrome(byte[] hammingCode)
+    {
+        var numberOfBitsWithoutOverallParity = hammingCode.Length - 1;
+        var numberOfParityBits = CalculateNumberOfParityBits(numberOfBitsWithoutOverallParity);
+        var syndrome = 0;
+    
         for (int i = 0; i < numberOfParityBits; i++)
         {
             var parityPos = 1 << i;
             var paritySum = 0;
-
-            for (int j = parityPos - 1; j < hammingCode.Length; j += 2 * parityPos)
+        
+            for (int j = parityPos - 1; j < numberOfBitsWithoutOverallParity; j += 2 * parityPos)
             {
-                for (int k = 0; k < parityPos && j + k < hammingCode.Length; k++)
+                for (int k = 0; k < parityPos && j + k < numberOfBitsWithoutOverallParity; k++)
                 {
                     paritySum += hammingCode[j + k];
                 }
             }
-
+        
             if (paritySum % 2 != 0)
             {
                 syndrome += parityPos;
             }
         }
-
+        
         return syndrome;
     }
     
@@ -91,21 +115,6 @@ public class ReceiverComponent
             .Aggregate(0, (current, bit) => current ^ bit);
 
         return overallParity == hammingCode.Last();
-    }
-
-    private static int CalculateNumberOfErrors(int syndrome, bool isOverallParityMatches)
-    {
-        if (syndrome == 0 && isOverallParityMatches)
-        {
-            return 0;
-        }
-
-        if (syndrome != 0 && isOverallParityMatches)
-        {
-            return 2;
-        }
-
-        return 1;
     }
     
     private static byte[] CorrectError(byte[] hammingCode, int syndrome)

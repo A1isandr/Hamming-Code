@@ -30,8 +30,9 @@ public class InformationSourceComponent
             
             await Task.Run(() => 
                 _messages.AddOrUpdate(new Message(
-                    id: i + 1,
-                    word: _random
+                    Id: i + 1,
+                    NumberOfDataBits: numberOfDigits,
+                    Word: _random
                         .GetItems(new byte[] { 0, 1 }, numberOfDigits)
                         .ToArray())), ct);
         }

@@ -39,10 +39,10 @@ public class SenderComponent
             _stats.Clear();
         }
         
-        var numberOfParityBits = CalculateNumberOfParityBits(message.NumberOfDataDigits);
+        var numberOfParityBits = CalculateNumberOfParityBits(message.NumberOfDataBits);
         var newWord = InsertParityBits(message.Word, numberOfParityBits);
-        var hammingCode = CalculateCheckBits(newWord, numberOfParityBits);
-        var hammingCodeForTwoBitError = AddParityBitForTwoBitError(hammingCode);
+        var hammingCode = CalculateParityBits(newWord, numberOfParityBits);
+        var hammingCodeForTwoBitError = CalculateParityBitForTwoBitError(hammingCode);
         byte[]? hammingCodeWithErrors = null;
         int[]? errorPositions = null;
         var random = new Random();
@@ -59,21 +59,22 @@ public class SenderComponent
             HammingCodeWithErrors: hammingCodeWithErrors,
             ErrorPositions: errorPositions));
         
-        message.Word = hammingCodeWithErrors ?? hammingCode;
-        
-        return message;
+        return new Message(
+            Id: message.Id,
+            NumberOfDataBits: message.Word.Length,
+            Word: hammingCodeWithErrors ?? hammingCodeForTwoBitError);
     }
     
-    private static int CalculateNumberOfParityBits(int numberOfDataDigits)
+    private static int CalculateNumberOfParityBits(int numberOfDataBits)
     {
-        var p = 0;
+        var numberOfParityBits = 0;
         
-        while (1 << p < numberOfDataDigits + p + 1)
+        while (1 << numberOfParityBits < numberOfDataBits + numberOfParityBits + 1)
         {
-            p++;
+            numberOfParityBits++;
         }
         
-        return p;
+        return numberOfParityBits;
     }
     
     private static byte[] InsertParityBits(byte[] data, int numberOfParityBits)
@@ -97,7 +98,7 @@ public class SenderComponent
         return [..word];
     }
     
-    private static byte[] CalculateCheckBits(byte[] word, int numberOfParityBits)
+    private static byte[] CalculateParityBits(byte[] word, int numberOfParityBits)
     {
         var hammingCode = (byte[])word.Clone();
         
@@ -117,10 +118,10 @@ public class SenderComponent
             hammingCode[parityPos - 1] = (byte)(paritySum % 2);
         }
         
-        return word;
+        return hammingCode;
     }
     
-    private static byte[] AddParityBitForTwoBitError(byte[] hammingCode)
+    private static byte[] CalculateParityBitForTwoBitError(byte[] hammingCode)
     {
         var hammingCodeForTwoBitError = new byte[hammingCode.Length + 1];
         hammingCode.CopyTo(hammingCodeForTwoBitError, 0);
@@ -142,9 +143,13 @@ public class SenderComponent
 
         for (int i = 0; i < errorCount; i++)
         {
-            var errorPosition = random.Next(0, hammingCode.Length);
+            int errorPosition;
 
-            if (errorPositions.Contains(errorPosition + 1)) continue;
+            while (true)
+            {
+                errorPosition = random.Next(0, hammingCode.Length);
+                if (!errorPositions.Contains(errorPosition + 1)) break;
+            }
             
             hammingCodeWithErrors[errorPosition] ^= 1;
             errorPositions[i] = errorPosition + 1;

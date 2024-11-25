@@ -5,7 +5,6 @@
              xmlns:models="clr-namespace:Task5.Models"
              xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:languages="clr-namespace:Task5.Languages"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Task5.Views.SenderView">
