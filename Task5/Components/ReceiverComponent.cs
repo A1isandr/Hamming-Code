@@ -82,7 +82,7 @@ public class ReceiverComponent
         return (numberOfErrors, errorSyndrome);
     }
     
-    public static int CalculateErrorSyndrome(byte[] hammingCode)
+    private static int CalculateErrorSyndrome(byte[] hammingCode)
     {
         var numberOfBitsWithoutOverallParity = hammingCode.Length - 1;
         var numberOfParityBits = CalculateNumberOfParityBits(numberOfBitsWithoutOverallParity);
