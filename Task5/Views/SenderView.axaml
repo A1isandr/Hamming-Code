@@ -88,6 +88,29 @@
                             
                             <StackPanel
                                 Orientation="Vertical"
+                                Spacing="5">
+                                
+                                <TextBlock
+                                    Text="{x:Static languages:Resources.HammingCodeForTwoBitErrorLabelText}"
+                                    TextWrapping="Wrap"/>
+                            
+                                <controls:GlassCard Classes="InfoCard">
+                                    <ItemsControl
+                                        ItemsSource="{Binding HammingCodeForTwoBitError}"
+                                        ItemTemplate="{StaticResource HammingCodeDataTemplate}">
+                                
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel
+                                                    Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </controls:GlassCard>
+                            </StackPanel>
+                            
+                            <StackPanel
+                                Orientation="Vertical"
                                 Spacing="5"
                                 IsVisible="{Binding HasErrors}">
                                 

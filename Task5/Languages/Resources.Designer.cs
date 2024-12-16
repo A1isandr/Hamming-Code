@@ -87,6 +87,15 @@ namespace Task5.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Код Хэмминга для 2-х кратной ошибки.
+        /// </summary>
+        public static string HammingCodeForTwoBitErrorLabelText {
+            get {
+                return ResourceManager.GetString("HammingCodeForTwoBitErrorLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Код Хэмминга.
         /// </summary>
         public static string HammingCodeLabelText {

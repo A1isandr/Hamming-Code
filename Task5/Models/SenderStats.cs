@@ -6,6 +6,7 @@ public record SenderStats(
     int Id,
     int NumberOfParityBits,
     byte[] HammingCode,
+    byte[] HammingCodeForTwoBitError,
     byte[]? HammingCodeWithErrors,
     int[]? ErrorPositions)
 {

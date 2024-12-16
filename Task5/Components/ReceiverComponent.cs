@@ -41,7 +41,7 @@ public class ReceiverComponent
             Id: message.Id,
             HammingCode: message.Word,
             NumberOfErrors: numberOfErrors,
-            ErrorSyndrome: errorSyndrome,
+            ErrorSyndrome: Convert.ToString(errorSyndrome, 2),
             CorrectedHammingCode: correctedHammingCode);
     }
     

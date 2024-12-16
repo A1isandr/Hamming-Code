@@ -57,4 +57,7 @@
     <data name="NumberOfErrorsLabelText" xml:space="preserve">
         <value>Количество ошибок</value>
     </data>
+    <data name="HammingCodeForTwoBitErrorLabelText" xml:space="preserve">
+        <value>Код Хэмминга для 2-х кратной ошибки</value>
+    </data>
 </root>

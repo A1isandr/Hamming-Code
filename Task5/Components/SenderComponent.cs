@@ -57,7 +57,8 @@ public class SenderComponent
         _stats.AddOrUpdate(new SenderStats(
             Id: message.Id,
             NumberOfParityBits: numberOfParityBits,
-            HammingCode: hammingCodeForTwoBitError,
+            HammingCode: hammingCode,
+            HammingCodeForTwoBitError: hammingCodeForTwoBitError,
             HammingCodeWithErrors: hammingCodeWithErrors,
             ErrorPositions: errorPositions));
         
